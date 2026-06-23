@@ -1,0 +1,29 @@
+{
+  "name": "sindico-data",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "turbo build --filter=@sindico/web --filter=@sindico/api && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.28.0",
+    "prettier": "^3.5.0",
+    "turbo": "^2.5.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.8.0",
+  "dependencies": {
+    "pdf-lib": "^1.17.1"
+  }
+}

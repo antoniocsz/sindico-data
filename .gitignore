@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.next/
+*.tsbuildinfo
+*.sqlite
+*.sqlite-journal
+.env
+.env.local
+.turbo/

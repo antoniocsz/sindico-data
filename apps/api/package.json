@@ -1,0 +1,27 @@
+{
+  "name": "@sindico/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "seed": "tsx src/seed.ts",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.0.0",
+    "@prisma/client": "^6.5.0",
+    "@sindico/ml-core": "*",
+    "@sindico/shared": "*",
+    "fastify": "^5.3.0",
+    "pdf-lib": "^1.17.1",
+    "pdfmake": "^0.3.11"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "prisma": "^6.5.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

@@ -1,0 +1,7 @@
+export { linearRegression, type LinearRegressionResult } from './regression'
+export { kmeans, type KMeansResult } from './kmeans'
+export { knn, type KNNResult } from './knn'
+export { r2Score, rmse, silhouetteScore, accuracy } from './metrics'
+export { zScoreNormalize } from './utils'
+export { detectAnomalias, type AnomalyInput, type AnomalyResult } from './anomaly-detection'
+export { simularTaxa, simularRateio, type SimulacaoTaxaInput, type SimulacaoRateioInput } from './simulacao'

@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../database.sqlite"
+}
+
+model Unidade {
+  id          Int       @id @default(autoincrement())
+  numero      String
+  bloco       String
+  proprietario String
+  email       String
+  receitas    Receita[]
+}
+
+model Receita {
+  id             Int       @id @default(autoincrement())
+  descricao      String
+  valor          Float
+  dataVencimento  DateTime
+  dataPagamento   DateTime?
+  unidadeId      Int
+  categoria      String
+  status         String    @default("pendente")
+  unidade        Unidade   @relation(fields: [unidadeId], references: [id])
+}
+
+model Despesa {
+  id        Int      @id @default(autoincrement())
+  descricao String
+  valor     Float
+  data      DateTime
+  categoria String
+  fornecedor String
+}
+
+model OrcamentoLote {
+  id          Int         @id @default(autoincrement())
+  versao      Int
+  dataCriacao DateTime    @default(now())
+  descricao   String?
+  orcamentos  Orcamento[]
+}
+
+model Orcamento {
+  id         Int          @id @default(autoincrement())
+  categoria  String
+  mes        Int
+  ano        Int
+  valor      Float
+  loteId     Int
+  lote       OrcamentoLote @relation(fields: [loteId], references: [id])
+
+  @@unique([categoria, mes, ano, loteId])
+}
