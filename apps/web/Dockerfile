@@ -8,7 +8,7 @@ COPY packages/ml-core/package.json ./packages/ml-core/
 RUN npm ci
 
 FROM node:20-alpine AS builder
-RUN npm uninstall -g yarn 2>/dev/null; true
+RUN rm -f /usr/local/bin/yarn /usr/local/bin/yarnpkg
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
