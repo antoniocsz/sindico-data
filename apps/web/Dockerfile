@@ -2,10 +2,13 @@ FROM node:20-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 COPY apps/web/package.json ./apps/web/
+COPY apps/api/package.json ./apps/api/
 COPY packages/shared/package.json ./packages/shared/
+COPY packages/ml-core/package.json ./packages/ml-core/
 RUN npm ci
 
 FROM node:20-alpine AS builder
+RUN npm uninstall -g yarn 2>/dev/null; true
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
