@@ -1,26 +1,17 @@
-FROM node:24-alpine AS base
-RUN npm install -g pnpm
-
-FROM base AS deps
+FROM node:20-alpine AS deps
 WORKDIR /app
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json package-lock.json ./
 COPY apps/web/package.json ./apps/web/
-COPY packages/ml-core/package.json ./packages/ml-core/
 COPY packages/shared/package.json ./packages/shared/
-# Se houver outros packages no workspace, adicione aqui também
-# COPY packages/utils/package.json ./packages/utils/
-RUN npm install --frozen-lockfile
+RUN npm ci
 
-FROM base AS builder
+FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/web/node_modules ./apps/web/node_modules
-COPY --from=deps /app/packages/ml-core/node_modules ./packages/ml-core/node_modules
-COPY --from=deps /app/packages/shared/node_modules ./packages/shared/node_modules
 COPY . .
-ARG NEXT_PUBLIC_SITE_URL
-ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
-RUN pnpm --filter @sindico/ml-core build && pnpm --filter @sindico/shared build && pnpm --filter web build
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+RUN npm run build -w packages/shared && npm run build -w apps/web
 
 FROM node:20-alpine AS runner
 WORKDIR /app

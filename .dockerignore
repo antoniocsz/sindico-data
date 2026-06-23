@@ -1,0 +1,11 @@
+node_modules/
+.turbo/
+dist/
+.next/
+*.sqlite
+*.sqlite-journal
+.env
+.git/
+.gitignore
+*.md
+.vscode/
