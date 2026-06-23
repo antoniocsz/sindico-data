@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { fetchBi, fetchPerfilUnidades, fetchRiscoInadimplencia } from '@/lib/api'
+import { fetchBi, fetchPerfilUnidades, fetchRiscoInadimplencia, API_URL } from '@/lib/api'
 import KpiCard from '@/components/KpiCard'
 import GraficoPizza from '@/components/GraficoPizza'
 import {
@@ -49,8 +49,8 @@ export default function BiPage() {
         fetchBi(params),
         fetchPerfilUnidades(bloco ? { bloco } : undefined),
         fetchRiscoInadimplencia(bloco ? { bloco } : undefined),
-        fetch('http://localhost:3001/api/orcamentos').then((r) => r.json()),
-        fetch('http://localhost:3001/api/ml/previsao-fluxo-caixa?meses=6').then((r) => r.json()),
+        fetch(`${API_URL}/orcamentos`).then((r) => r.json()),
+        fetch(`${API_URL}/ml/previsao-fluxo-caixa?meses=6`).then((r) => r.json()),
       ])
       setData(bi)
       setPerfilData(perfil)
@@ -98,7 +98,7 @@ export default function BiPage() {
     if (bloco) params.set('bloco', bloco)
     if (categoria) params.set('categoria', categoria)
     if (status) params.set('status', status)
-    return `http://localhost:3001/api/export?${params.toString()}`
+    return `${API_URL}/export?${params.toString()}`
   }
 
   const contagemRisco = riscoData?.unidades?.reduce((acc: any, u: any) => {

@@ -1,10 +1,8 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { fetchReceitas, fetchUnidades } from '@/lib/api'
+import { fetchReceitas, fetchUnidades, API_URL } from '@/lib/api'
 import Modal from '@/components/Modal'
-
-const API = 'http://localhost:3001/api'
 
 export default function ReceitasPage() {
   const [receitas, setReceitas] = useState<any[]>([])
@@ -79,11 +77,11 @@ export default function ReceitasPage() {
     if (form.dataPagamento) body.dataPagamento = form.dataPagamento
     try {
       if (editando) {
-        await fetch(`${API}/receitas/${editando.id}`, {
+        await fetch(`${API_URL}/receitas/${editando.id}`, {
           method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
         })
       } else {
-        await fetch(`${API}/receitas`, {
+        await fetch(`${API_URL}/receitas`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
         })
       }
@@ -98,7 +96,7 @@ export default function ReceitasPage() {
 
   async function deletar(id: number) {
     if (!confirm('Tem certeza que deseja excluir esta receita?')) return
-    await fetch(`${API}/receitas/${id}`, { method: 'DELETE' })
+    await fetch(`${API_URL}/receitas/${id}`, { method: 'DELETE' })
     await carregar()
   }
 

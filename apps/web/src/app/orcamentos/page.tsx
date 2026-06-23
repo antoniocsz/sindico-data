@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { API_URL } from '@/lib/api'
 
 const CATEGORIAS = [
   { id: 'agua', label: 'Água' },
@@ -28,7 +29,7 @@ export default function OrcamentosPage() {
   const carregar = async () => {
     setLoading(true)
     try {
-      const r = await fetch(`http://localhost:3001/api/orcamentos?ano=${ano}`).then((r) => r.json())
+      const r = await fetch(`${API_URL}/orcamentos?ano=${ano}`).then((r) => r.json())
       setLoteAtual(r.lote)
       const map: Record<string, Record<number, number>> = {}
       for (const o of r.orcamentos || []) {
@@ -37,7 +38,7 @@ export default function OrcamentosPage() {
       }
       setValores(map)
 
-      const lotesR = await fetch('http://localhost:3001/api/orcamentos/lotes').then((r) => r.json())
+      const lotesR = await fetch(`${API_URL}/orcamentos/lotes`).then((r) => r.json())
       setLotes(lotesR)
     } catch (e) {
       console.error(e)
@@ -69,7 +70,7 @@ export default function OrcamentosPage() {
       }
     }
     try {
-      await fetch('http://localhost:3001/api/orcamentos', {
+      await fetch(`${API_URL}/orcamentos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orcamentos, descricao: `Orçamento ${ano}` }),

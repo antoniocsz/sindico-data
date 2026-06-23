@@ -1,11 +1,9 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { fetchUnidades, fetchPerfilUnidades } from '@/lib/api'
+import { fetchUnidades, fetchPerfilUnidades, API_URL } from '@/lib/api'
 import GraficoCluster from '@/components/GraficoCluster'
 import Modal from '@/components/Modal'
-
-const API = 'http://localhost:3001/api'
 
 export default function UnidadesPage() {
   const [unidades, setUnidades] = useState<any[]>([])
@@ -55,11 +53,11 @@ export default function UnidadesPage() {
     setSalvando(true)
     try {
       if (editando) {
-        await fetch(`${API}/unidades/${editando.id}`, {
+        await fetch(`${API_URL}/unidades/${editando.id}`, {
           method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form),
         })
       } else {
-        await fetch(`${API}/unidades`, {
+        await fetch(`${API_URL}/unidades`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form),
         })
       }
@@ -74,7 +72,7 @@ export default function UnidadesPage() {
 
   async function deletar(id: number) {
     if (!confirm('Tem certeza que deseja excluir esta unidade?')) return
-    await fetch(`${API}/unidades/${id}`, { method: 'DELETE' })
+    await fetch(`${API_URL}/unidades/${id}`, { method: 'DELETE' })
     await carregar()
   }
 

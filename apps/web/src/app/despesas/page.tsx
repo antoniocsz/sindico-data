@@ -1,10 +1,8 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { fetchDespesas } from '@/lib/api'
+import { fetchDespesas, API_URL } from '@/lib/api'
 import Modal from '@/components/Modal'
-
-const API = 'http://localhost:3001/api'
 
 export default function DespesasPage() {
   const [despesas, setDespesas] = useState<any[]>([])
@@ -64,9 +62,9 @@ export default function DespesasPage() {
     const body = { descricao: form.descricao, valor: parseFloat(form.valor), data: form.data, categoria: form.categoria, fornecedor: form.fornecedor }
     try {
       if (editando) {
-        await fetch(`${API}/despesas/${editando.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+        await fetch(`${API_URL}/despesas/${editando.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       } else {
-        await fetch(`${API}/despesas`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+        await fetch(`${API_URL}/despesas`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
       }
       setModalAberto(false)
       await carregar()
@@ -79,7 +77,7 @@ export default function DespesasPage() {
 
   async function deletar(id: number) {
     if (!confirm('Tem certeza que deseja excluir esta despesa?')) return
-    await fetch(`${API}/despesas/${id}`, { method: 'DELETE' })
+    await fetch(`${API_URL}/despesas/${id}`, { method: 'DELETE' })
     await carregar()
   }
 

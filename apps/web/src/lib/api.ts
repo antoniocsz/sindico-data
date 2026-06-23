@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3001/api'
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api'
 
 function buildQuery(params?: Record<string, string | undefined>): string {
   if (!params) return ''
